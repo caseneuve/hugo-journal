@@ -13,8 +13,16 @@
 
           <br>
 
+          {{ if isset .Site.Params "userwebsite" -}}
+          <a itemprop="sameAs" href="{{ .Site.Params.userWebSite }}" title="GitLab">LAB</a>
+          {{- end }}
+
+          {{ if isset .Site.Params "gitlabusername" -}}
+          <a itemprop="sameAs" href="https://gitlab.com/{{ .Site.Params.gitlabUsername }}" title="GitLab">LAB</a>
+          {{- end }}
+
           {{ if isset .Site.Params "githubusername" -}}
-          <a itemprop="sameAs" href="https://github.com/{{ .Site.Params.githubUsername }}" title="GitHub">GH</a>
+          <a itemprop="sameAs" href="https://github.com/{{ .Site.Params.githubUsername }}" title="GitHub">HUB</a>
           {{- end }}
 
           {{ if isset .Site.Params "twitterusername" -}}
