@@ -1,8 +1,14 @@
 {{ partial "top.html" . }}
+{{ $url := .Site.BaseURL }}
 
   <article class="post">
     <header class="post-header">
       <h1 class="post-title">{{ .Title }}</h1>
+      {{ with .Params.tags }}
+        {{ range . }}
+        <small><a href="{{ $url }}tags/{{.}}">#{{ upper . }}</a></small>&nbsp;
+        {{ end }}
+      {{ end }}
       <time class="post-date" datetime="{{ .Date.Format "2006-01-02 15:04:05 MST" }}">{{ .Date.Format "02 Jan 2006" }}</time>
     </header>
 

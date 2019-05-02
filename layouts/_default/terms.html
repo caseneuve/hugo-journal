@@ -1,0 +1,19 @@
+{{ partial "top.html" . }}
+{{ $baseurl := .Site.BaseURL }}
+{{ $plural := .Data.Plural }}
+{{ $max := 10 }}
+<h1>{{ .Title }}</h1>
+{{ range $key, $value := .Data.Terms }}
+<h6>#{{ upper $key }}:</h6>
+<ul>
+{{ range $x := (first $max $value) }}
+<li>
+  {{ $x.Date.Format "06/01/02" }} &nbsp; <a href="{{ $x.URL }}">{{ $x.Title }}</a>
+  </li>
+{{ end }}
+</ul>
+{{if gt (len $value) $max }}
+<div style="text-align:right; font-size:small">... <a href="{{ $baseurl }}/{{ $plural }}/{{ $key }}"> and {{ sub (len $value) $max }} more</a></div>
+{{ end }}
+{{ end }}
+{{ partial "bottom.html" . }}

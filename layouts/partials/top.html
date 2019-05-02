@@ -16,7 +16,7 @@
     <meta property="og:type" content="website">
     <meta name="description" content="{{ .Site.Params.description }}">
     {{- else -}}
-    <title>{{ .Title }} - {{ .Site.Title }}</title>
+    <title>{{ or .Title (path.Base .URL) }} - {{ .Site.Title }}</title>
     <meta property="og:title" content="{{ .Title }} - {{ .Site.Title }}">
     <meta property="og:type" content="article">
     <meta name="description" content="{{ .Description }}">
@@ -26,10 +26,10 @@
     <link rel="stylesheet" href="{{ "css/highlight.css" | relURL }}">
     <link rel="stylesheet" href="{{ "css/journal.css" | relURL }}">
     <link href="{{ "index.xml" | relURL }}" rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}">
-
   </head>
 
   <body>
+
     <div class="container">
 
       {{ if .IsHome -}}
@@ -38,7 +38,17 @@
         <p>{{ .Site.Params.tagline }}</p>
       </header>
       {{- else -}}
+      {{ $dirs := (split (trim .URL "/") "/") }}
+      {{ $len := (len $dirs) }}
+      {{ $url := "" }}
       <nav class="site-nav">
-        <a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a>
+        <a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a> /
+        {{ range $key, $value := $dirs }}
+        {{ if gt $key 0 }}
+        <a href="{{ relURL $url }}">{{ $value }}</a>
+        {{ if lt (add 1 $key) $len }} / {{ end }}
+        {{ end }}
+        {{ $url = (path.Join $url (index $dirs (add 1 $key ) ) ) }}
+        {{ end }}
       </nav>
       {{- end }}
