@@ -35,7 +35,11 @@
       {{ if .IsHome -}}
       <header class="site-header">
         <h1>{{ .Site.Title }}</h1>
-        <p>{{ .Site.Params.tagline }}</p>
+        {{ range .Site.Menus.main }}
+        <a style="margin-right:1rem;" href="{{ .URL }}">{{ .Name }}</a>
+        {{ end }}
+
+        <!-- <p>{{ .Site.Params.tagline }}</p> -->
       </header>
       {{- else -}}
       {{ $dirs := (split (trim .URL "/") "/") }}
