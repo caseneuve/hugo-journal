@@ -11,10 +11,12 @@
         {{ range . }}
         <small><a href="{{ $url }}tags/{{.}}">#{{ upper . }}</a></small>&nbsp;
         {{ end }}
-      {{ end }}
+        {{ end }}
+        {{ if not .Params.nodate }}
         <time class="post-date" datetime="{{ .Date.Format "2006-01-02 15:04:05 MST" }}">
           {{ .Date.Format "02 Jan 2006" }}
         </time>
+        {{ end }}
     </header>
 
     {{ .Content }}
