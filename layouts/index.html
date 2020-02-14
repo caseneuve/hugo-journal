@@ -1,26 +1,25 @@
 {{ partial "top.html" . }}
 
-  <article class="posts">
-
-    {{ range site.RegularPages.GroupByDate "2006" -}}
-    <section>
-      <h2>{{ .Key }}</h2>
-
-      <ol>
-        {{ range .Pages -}}
-        <li>
-          <time datetime="{{ .Date.Format "2006-01-02 15:04:05 MST" }}">{{ .Date.Format "Jan 02" }}</time>
-          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-          <p style="color:#808080;font-style:italic;padding-left:.5rem;">
-             {{ .Description }}
-          </p>
-        </li>
-        {{- end }}
-      </ol>
-
-    </section>
+<article class="posts">
+  <section>
+    {{ range (where site.RegularPages "Type" "post").GroupByDate "2006" }}
+    <h2>{{ .Key }}</h2>
+    <ol>
+      {{ range .Pages }}
+      <li>
+        <time datetime="{{ .Date.Format "2006-01-02 15:04:05 MST" }}">
+          {{ .Date.Format "Jan 02" }}
+        </time>
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        <p style="color:#808080;font-style:italic;padding-left:.5rem;">
+          {{ .Description }}
+        </p>
+      </li>
+      {{ end }}
+    </ol>
     {{ end }}
 
-  </article>
+  </section>
+</article>
 
 {{ partial "bottom.html" . }}
