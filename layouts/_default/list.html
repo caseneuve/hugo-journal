@@ -1,11 +1,10 @@
 {{ partial "top.html" . }}
-<h1>Content in {{ or .Title (path.Base .URL) }}:</h1>
+<h1>Content in {{ or .Title (path.Base .Permalink) }}:</h1>
 {{ $site := .Site.BaseURL }}
-{{ $url := .URL }}
-<!-- {{ $name := trim .URL "/blog/" }} -->
+{{ $url := .Permalink }}
 {{ $root := "./content/" }}
+{{ $name := last 1 (split (absURL (trim .RelPermalink "/")) "/") }}
 {{ $this := (path.Join $root $name)}}
-{{ $name := last 1 (split (absURL (trim .URL "/")) "/") }}
 
 {{ if eq (len .Pages) 0 }}
   {{ $files := (readDir $this ) }}
@@ -23,7 +22,7 @@
           <ul>
             {{ range $x, $y := .Pages }}
             <li>
-              <a href="{{ .URL }}">{{ .Title }} </a>&nbsp;
+              <a href="{{ .Permalink }}">{{ .Title }} </a>&nbsp;
               {{ with $y.Params.tags }}
               {{ range . }}
               <small>#<a href="{{ $site }}/tags/{{ . }}">{{ . }}</a></small>&nbsp;

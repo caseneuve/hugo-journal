@@ -8,7 +8,7 @@
 <ul>
 {{ range $x := (first $max $value) }}
 <li>
-  {{ $x.Date.Format "06/01/02" }} &nbsp; <a href="{{ $x.URL }}">{{ $x.Title }}</a>
+  {{ $x.Date.Format "06/01/02" }} &nbsp; <a href="{{ $x.Permalink }}">{{ $x.Title }}</a>
   </li>
 {{ end }}
 </ul>

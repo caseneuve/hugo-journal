@@ -16,7 +16,7 @@
     <meta property="og:type" content="website">
     <meta name="description" content="{{ .Site.Params.description }}">
     {{- else -}}
-    <title>{{ or .Title (path.Base .URL) }} - {{ .Site.Title }}</title>
+    <title>{{ or .Title (path.Base .Permalink) }} - {{ .Site.Title }}</title>
     <meta property="og:title" content="{{ .Title }} - {{ .Site.Title }}">
     <meta property="og:type" content="article">
     <meta name="description" content="{{ .Description }}">
@@ -36,6 +36,8 @@
       {{ if .IsHome -}}
       <header class="site-header">
         <h1>{{ .Site.Title }}</h1>
+
+        <!-- menu: -->
         {{ range .Site.Menus.main }}
         <a style="margin-right:1rem;" href="{{ .URL }}">{{ .Name }}</a>
         {{ end }}
@@ -43,7 +45,7 @@
         <!-- <p>{{ .Site.Params.tagline }}</p> -->
       </header>
       {{- else -}}
-      {{ $dirs := (split (trim .URL "/") "/") }}
+      {{ $dirs := (split (trim .RelPermalink "/") "/") }}
       {{ $len := (len $dirs) }}
       {{ $url := "" }}
       <nav class="site-nav">
