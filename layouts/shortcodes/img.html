@@ -1,0 +1,18 @@
+<figure>
+  {{ $title := .Get "title" }}
+
+  {{ if .Get "link" }}
+    {{ $title = "click to see full size" }}
+
+    <a class="original" href="{{ .Get "link" }}" target="_blank" title="{{ $title }}">
+      <img src="{{ .Get "src" }}" alt="{{ .Get "alt" }}" class="representation">
+    </a>
+
+  {{ else }}
+    <img src="{{ .Get "src" }}" alt="{{ .Get "alt" }}" class="representation" title="{{ $title }}">
+
+  {{end}}
+
+  <figcaption>{{ .Get "caption" }}</figcaption>
+
+</figure>
