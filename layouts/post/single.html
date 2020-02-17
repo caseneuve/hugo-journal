@@ -19,6 +19,12 @@
         {{ end }}
     </header>
 
+    {{ if not .Params.notoc }}
+      <hr>
+      <small>{{ .TableOfContents}}</small>
+      <hr>
+    {{ end }}
+
     {{ .Content }}
 
   </article>
