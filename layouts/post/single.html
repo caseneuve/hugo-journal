@@ -10,9 +10,16 @@
         <p style="color:#808080;font-style:italic;padding-left:">{{ . }}</p>
       {{ end }}
 
+      <!-- Categories  -->
+      {{ with .Params.categories }}
+        {{ range sort . }}
+          <small><a href="{{ $url }}categories/{{.}}">@{{ upper . }}</a></small>&nbsp;
+        {{ end }}
+      {{ end }}
+
       <!-- Tags -->
       {{ with .Params.tags }}
-        {{ range . }}
+        {{ range sort . }}
           <small><a href="{{ $url }}tags/{{.}}">#{{ upper . }}</a></small>&nbsp;
         {{ end }}
       {{ end }}

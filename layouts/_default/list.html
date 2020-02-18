@@ -1,35 +1,28 @@
 {{ partial "top.html" . }}
-<h1>Content in {{ or .Title (path.Base .Permalink) }}:</h1>
-{{ $site := .Site.BaseURL }}
-{{ $url := .Permalink }}
-{{ $root := "./content/" }}
-{{ $name := last 1 (split (absURL (trim .RelPermalink "/")) "/") }}
-{{ $this := (path.Join $root $name)}}
 
-{{ if eq (len .Pages) 0 }}
-  {{ $files := (readDir $this ) }}
-    {{ range $files }}
-      {{ $file := path.Join $this .Name }}
-      {{ $stat := os.Stat $file }}
-        {{ if $stat.IsDir }}
-          <h5>
-            <a href="{{ $url }}/{{ .Name }}">{{ .Name }}</a>
-          </h5>
-        {{ end }}
+<!-- if this is the "main" tags page show only tag names and corresponding number of entries -->
+{{ if (or (eq .Path "tags") (eq .Path "categories")) }}
+  <h1>{{ upper .Data.Plural }}:</h1>
+  <ul>
+    {{ range .Data.Terms }}
+      <li><a href="{{ .Page.Permalink }}">{{ .Page.Title }}</a> ({{ .Count }})</li>
     {{ end }}
+  </ul>
+
+<!-- otherwise show all entries marked with specific tag -->
 {{ else }}
-          {{ .Content }}
-          <ul>
-            {{ range $x, $y := .Pages }}
-            <li>
-              <a href="{{ .Permalink }}">{{ .Title }} </a>&nbsp;
-              {{ with $y.Params.tags }}
-              {{ range . }}
-              <small>#<a href="{{ $site }}/tags/{{ . }}">{{ . }}</a></small>&nbsp;
-              {{ end }}
-              {{end}}
-            </li>
-            {{ end }}
-          </ul>
+  {{ $pre := "#" }}
+  {{ $term := .Data.Singular }}
+  <h1>Content in the {{ upper .Title }} {{ $term }}:</h1>
+  <ul>
+    {{ range .Data.Pages }}
+    <li>
+      {{ .Date.Format "06/01/02" }} &nbsp;
+      <a href="{{ .Permalink }}">{{ .Title }}</a>
+    </li>
+    {{ end }}
+  </ul>
+
 {{ end }}
+
 {{ partial "bottom.html" . }}

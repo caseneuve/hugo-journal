@@ -1,0 +1,46 @@
+{{ partial "top.html" . }}
+
+<h1>Content in {{ upper (or .Title (path.Base .Permalink)) }}:</h1>
+
+{{ $site := .Site.BaseURL }}
+{{ $url := .Permalink }}
+{{ $root := "./content/" }}
+{{ $name := last 1 (split (absURL (trim .RelPermalink "/")) "/") }}
+{{ $this := (path.Join $root $name)}}
+
+{{ if eq (len .Pages) 0 }}
+  {{ $files := (readDir $this ) }}
+    {{ range $files }}
+      {{ $file := path.Join $this .Name }}
+      {{ $stat := os.Stat $file }}
+        {{ if $stat.IsDir }}
+          <h5>
+            <a href="{{ $url }}/{{ .Name }}">{{ .Name }}</a>
+          </h5>
+        {{ end }}
+    {{ end }}
+          
+{{ else }}
+  {{ .Content }}
+    <ul>
+      {{ range $x, $y := .Pages }}
+        <li>
+          {{ $y.Page.Date.Format "06/01/02" }}
+          <a href="{{ .Permalink }}">{{ .Title }} </a>&nbsp;
+          {{ with $y.Params.categories }}
+            {{ range sort . }}
+              <small>@<a href="{{ $site }}/categories/{{ . }}">{{ . }}</a></small>&nbsp;
+            {{ end }}
+          {{end}}
+
+          {{ with $y.Params.tags }}
+            {{ range sort . }}
+              <small>#<a href="{{ $site }}/tags/{{ . }}">{{ . }}</a></small>&nbsp;
+            {{ end }}
+          {{end}}
+        </li>
+      {{ end }}
+    </ul>
+{{ end }}
+    
+{{ partial "bottom.html" . }}
